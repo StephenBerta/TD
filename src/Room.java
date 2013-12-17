@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class Room {
 	
-	public int worldWidth = 12;
-	public int worldHeight = 8;
+	public int worldWidth = 16;
+	public int worldHeight = 12;
 	public int blockSize = 52;
 	
 	public Block[][] block;

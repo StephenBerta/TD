@@ -68,7 +68,7 @@ public class Block extends Rectangle {
 				if(Screen.mobs[shotMob].isDead()) {
 					shooting = false;
 					shotMob = -1;
-					Screen.killed += 1;
+					
 					
 					Screen.hasWon();
 					

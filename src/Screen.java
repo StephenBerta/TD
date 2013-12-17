@@ -22,8 +22,8 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	
 	
 	public static int myWidth, myHeight;
-	public static int coinage = 10;
-	public static int health = 10;
+	public static int coinage;
+	public static int health;
 	public static int killed = 0;
 	public static int killsToWin = 0;
 	public static int level =1;
@@ -67,8 +67,8 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		save = new Save();
 		store = new Store();
 		
-		coinage = 10;
-		health = 10;
+		coinage = Value.startingCoinage;
+		health = Value.startingHealth;
 		
 		for(int i=0;i<tileset_ground.length;i++) {
 			tileset_ground[i] = new ImageIcon("res/tileset_ground.png").getImage();
@@ -94,9 +94,6 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		
 		for(int i=0;i<mobs.length;i++) {
 			mobs[i] = new Mob();
-			
-		
-			
 		
 		}
 		
@@ -130,7 +127,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		g.drawLine(room.block[0][0].x - myBorder + 1, room.block[room.worldHeight-1][0].y + room.blockSize + i, room.block[0][room.worldWidth-1].x + room.blockSize + myBorder, room.block[room.worldHeight-1][0].y + room.blockSize + i); //drawing bottom border.
 		}
 		
-		
+	
 		
 		
 		room.draw(g);   //Drawing the room.

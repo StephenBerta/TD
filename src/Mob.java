@@ -42,7 +42,7 @@ public class Mob extends Rectangle {
 		inGame = false;
 		direction = right;
 		mobWalk = 0;
-		Screen.room.block[0][0].getMoney(mobID);
+		
 	}
 	
 	public void loseCastleHealth() {
@@ -74,7 +74,7 @@ public class Mob extends Rectangle {
 		
 		if(walkFrame >= walkSpeed) {
 			if(direction == right) {
-			x += 1;
+				x += 1;
 			}else if (direction == upward) {
 				y -= 1;
 			}else if(direction == downward ) {
@@ -108,8 +108,8 @@ public class Mob extends Rectangle {
 				try{
 						if(Screen.room.block[yC+1][xC].groundID == Value.groundRock) {
 					direction = downward;
-					}
-				}catch(Exception e) {}
+						}
+					}catch(Exception e) {}
 				}
 				if(!hasDownward) {
 						try{
@@ -167,7 +167,8 @@ public class Mob extends Rectangle {
 	public void checkDeath() {
 		if(health <= 0) {
 			deleteMob();
-			
+			Screen.room.block[0][0].getMoney(mobID);
+			Screen.killed += 1;
 			if(Screen.isDebug) {
 			System.out.println(Screen.killed);
 			}
@@ -200,7 +201,7 @@ public class Mob extends Rectangle {
 			g.drawRect(x, y - (healthSpace + healthHeight), health/100, healthHeight);
 
 			g.setColor(new Color(180, 0, 0));
-			g.drawString(Integer.toString(health/52), x, y-10);
+			g.drawString(Integer.toString(health/26), x, y-10);
 		}
 		
 		if(mobID == Value.mobPink) {
