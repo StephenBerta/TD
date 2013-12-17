@@ -20,7 +20,7 @@ public class Value {
 	
 	public static int[] killReward = {5, 2};
 	
-	public static int Ithinkitsworkingtesting;
+	public static int elliotworking;
 	
 	
 	
