@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class Key implements MouseMotionListener, MouseListener {
 
+	public static int clickNumber = 0;
 
 	public void mouseClicked(MouseEvent e) {
 		
@@ -26,6 +27,7 @@ public class Key implements MouseMotionListener, MouseListener {
 	
 	public void mousePressed(MouseEvent e) {
 		Screen.store.click(e.getButton());
+		clickNumber = e.getButton();
 		
 	}
 

@@ -3,13 +3,18 @@
 
 
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.CropImageFilter;
+import java.awt.image.FilteredImageSource;
+import java.io.File;
 
-import javax.swing.*;
-
-import java.awt.image.*;
-import java.io.*;
-import java.applet.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Screen extends JPanel implements Runnable {				//change to Jpanel to run in ide
 	
@@ -31,11 +36,15 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	public static int winTime = 4000;
 	public static int winFrame = 0;
 	
+	public static int buttonX = 500;
+	public static int buttonY = 100;
+	public Rectangle buttonStart;
+	
 	public static boolean isFirst = true;
 	public static boolean isDebug = false;
 	public static boolean isWin = false;
 	public static boolean isPaused = false;						//
-	
+	public static boolean startGame = false;
 	
 	public static Point mse = new Point(0,0);
 	
@@ -102,68 +111,104 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	
 	
 	public void paintComponent(Graphics g) {
+		int mouseButton = Key.clickNumber;
 		if(isFirst) {
 			myWidth = getWidth();
 			myHeight = getHeight();
 			myBorder = 5;
-			
-			
-			
 			define();
-			isFirst = false;
+			
+			
+			
+			
 		}
 		
-		g.setColor(new Color(75,75,75));				//background color
-		g.fillRect(0, 0, getWidth(), getHeight());     //Clear screen.
-		g.setColor(new Color(0, 0, 0));					//border color
-		
-		
-		
-		
-
-		for(int i=0; i<myBorder + 1; i++) {
-		g.drawLine(room.block[0][room.worldWidth-1].x + room.blockSize + i, 0, room.block[0][room.worldWidth-1].x + room.blockSize + i, room.block[room.worldHeight-1][0].y + room.blockSize); //right border
-		g.drawLine(room.block[0][0].x - i, 0, room.block[0][0].x - i, room.block[room.worldHeight-1][0].y + room.blockSize + i); //left border
-		g.drawLine(room.block[0][0].x - myBorder + 1, room.block[room.worldHeight-1][0].y + room.blockSize + i, room.block[0][room.worldWidth-1].x + room.blockSize + myBorder, room.block[room.worldHeight-1][0].y + room.blockSize + i); //drawing bottom border.
-		}
-		
-	
-		
-		
-		room.draw(g);   //Drawing the room.
-		
-		for(int i=0;i<mobs.length;i++) {
-			if(mobs[i].inGame) {
-				mobs[i].draw(g);
-				
+		if(!startGame) {
+			
+			
+			buttonStart = new Rectangle((getWidth()-buttonX)/2, (getHeight()-buttonY)/2, buttonX, buttonY);
+			
+			g.setColor(new Color(50,50,50));
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+			g.setColor(new Color(0,0,0));
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(Frame.title, getWidth()/4, getHeight()/4);
+			
+			g.setColor(new Color(100,100,100));
+			g.fillRect((getWidth()-buttonX)/2, (getHeight()-buttonY)/2, buttonX, buttonY);
+			
+			g.setColor(new Color(190,190,190));
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString("START GAME", (getWidth() - (buttonX)/2)/2, (getHeight()+(buttonY/4))/2);
+			
+			if(buttonStart.contains(Screen.mse)) {
+				g.setColor(new Color(150,150,150));
+				g.fillRect((getWidth()-buttonX)/2, (getHeight()-buttonY)/2, buttonX, buttonY);
+				g.setColor(new Color(75,75,75));
+				g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+				g.drawString("CLICK HERE", (getWidth() - (buttonX)/2)/2, (getHeight()+(buttonY/4))/2);
+			
+					if(mouseButton  == 1) {
+						isFirst = false;
+						startGame = true;
+						System.out.println("finally");
+						
+						
+					}
 			}
 			
 		}
 		
 		
+		if(startGame) {
 		
-		store.draw(g);  //Drawing the store.
+			g.setColor(new Color(75,75,75));				//background color
+			g.fillRect(0, 0, getWidth(), getHeight());     //Clear screen.
+			g.setColor(new Color(0, 0, 0));					//border color
+			
+			
+			
+			
+	
+			for(int i=0; i<myBorder + 1; i++) {
+			g.drawLine(room.block[0][room.worldWidth-1].x + room.blockSize + i, 0, room.block[0][room.worldWidth-1].x + room.blockSize + i, room.block[room.worldHeight-1][0].y + room.blockSize); //right border
+			g.drawLine(room.block[0][0].x - i, 0, room.block[0][0].x - i, room.block[room.worldHeight-1][0].y + room.blockSize + i); //left border
+			g.drawLine(room.block[0][0].x - myBorder + 1, room.block[room.worldHeight-1][0].y + room.blockSize + i, room.block[0][room.worldWidth-1].x + room.blockSize + myBorder, room.block[room.worldHeight-1][0].y + room.blockSize + i); //drawing bottom border.
+			}
+			
+			room.draw(g);   //Drawing the room.
+			
+			for(int i=0;i<mobs.length;i++) {
+				if(mobs[i].inGame) {
+					mobs[i].draw(g);
+					
+				}
+				
+			}
 		
-		if(health <1) {
-			g.setColor(new Color(240, 20, 20));
-			g.fillRect(0, 0,  myWidth, myHeight);
-			g.setColor(new Color(255, 255, 255));
-			g.setFont(new Font("Courier New", Font.BOLD, 14));
-			g.drawString("GAME OVER, Sucks To Suck", 10, 10);
-		}
-		if(isWin) {
-			g.setColor(new Color(255,255,255));
-			g.fillRect(0,  0, getWidth(), getHeight());
-			g.setColor(new Color(0, 0, 0));
-			g.setFont(new Font("Courier New", Font.BOLD, 14));
-			if(level == maxLevel) {
-			g.drawString("Congratulations you beat the game! The window will now close...", 10, 10);
-		} else {
-			g.drawString("You beat the level! Please wait for next level...", 10, 10);
+			store.draw(g);  //Drawing the store.
+			
+			if(health <1) {
+				g.setColor(new Color(240, 20, 20));
+				g.fillRect(0, 0,  myWidth, myHeight);
+				g.setColor(new Color(255, 255, 255));
+				g.setFont(new Font("Courier New", Font.BOLD, 14));
+				g.drawString("GAME OVER, Sucks To Suck", 10, 10);
+			}
+			if(isWin) {
+				g.setColor(new Color(255,255,255));
+				g.fillRect(0,  0, getWidth(), getHeight());
+				g.setColor(new Color(0, 0, 0));
+				g.setFont(new Font("Courier New", Font.BOLD, 14));
+				if(level > maxLevel) {
+				g.drawString("Congratulations you beat the game! The window will now close...", 10, 10);
+			} else {
+				g.drawString("You beat the level! Please wait for next level...", 10, 10);
+				}
 			}
 		}
 	}
-	
 	
 	public int spawnTime = 5000, spawnFrame = 0;										//green mob spawn time
 	public int spawnTimeMob2 = 2500, spawnFrameMob2 = 0;								//pink mob spawn time
