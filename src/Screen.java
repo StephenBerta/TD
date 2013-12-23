@@ -1,8 +1,4 @@
 //2x2 pixel TD game so 20 in here is really 10 pixels in photoshop!!
-
-
-
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,14 +13,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Screen extends JPanel implements Runnable {				//change to Jpanel to run in ide
-	
 	public Thread thread = new Thread(this);
 	
 	public static Image[] tileset_ground = new Image[100];
 	public static Image[] tileset_air = new Image [100];
 	public static Image[] tileset_res = new Image [100];
 	public static Image[] tileset_mob = new Image [100];
-	
 	
 	public static int myWidth, myHeight;
 	public static int coinage;
@@ -43,7 +37,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	public static boolean isFirst = true;
 	public static boolean isDebug = false;
 	public static boolean isWin = false;
-	public static boolean isPaused = false;						//
+	public static boolean isPaused = false;
 	public static boolean startGame = false;
 	
 	public static Point mse = new Point(0,0);
@@ -55,11 +49,9 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	
 	public static Mob[] mobs = new Mob[100];
 	
-	
 	public Screen(Frame frame) {
 		frame.addMouseListener(new Key());
 		frame.addMouseMotionListener(new Key());
-		
 		thread.start();
 	}
 	
@@ -97,18 +89,12 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		tileset_mob[0] = new ImageIcon("res/mob1.png").getImage();
 		tileset_mob[1] = new ImageIcon("res/mob2.png").getImage();
 		
-		
-		
 		save.loadSave(new File("save/mission" + level + ".steve"));
 		
 		for(int i=0;i<mobs.length;i++) {
 			mobs[i] = new Mob();
-		
 		}
-		
-		
 	}
-	
 	
 	public void paintComponent(Graphics g) {
 		int mouseButton = Key.clickNumber;
@@ -117,15 +103,9 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 			myHeight = getHeight();
 			myBorder = 5;
 			define();
-			
-			
-			
-			
 		}
 		
 		if(!startGame) {
-			
-			
 			buttonStart = new Rectangle((getWidth()-buttonX)/2, (getHeight()-buttonY)/2, buttonX, buttonY);
 			
 			g.setColor(new Color(50,50,50));
@@ -148,43 +128,27 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 				g.setColor(new Color(75,75,75));
 				g.setFont(new Font("Times New Roman", Font.BOLD, 35));
 				g.drawString("CLICK HERE", (getWidth() - (buttonX)/2)/2, (getHeight()+(buttonY/4))/2);
-			
-					if(mouseButton  == 1) {
-						isFirst = false;
-						startGame = true;
-						System.out.println("finally");
-						
-						
-					}
+				if(mouseButton  == 1) {
+					isFirst = false;
+					startGame = true;
+					System.out.println("finally");
+				}
 			}
-			
 		}
-		
-		
 		if(startGame) {
-		
 			g.setColor(new Color(75,75,75));				//background color
 			g.fillRect(0, 0, getWidth(), getHeight());     //Clear screen.
 			g.setColor(new Color(0, 0, 0));					//border color
-			
-			
-			
-			
-	
 			for(int i=0; i<myBorder + 1; i++) {
-			g.drawLine(room.block[0][room.worldWidth-1].x + room.blockSize + i, 0, room.block[0][room.worldWidth-1].x + room.blockSize + i, room.block[room.worldHeight-1][0].y + room.blockSize); //right border
-			g.drawLine(room.block[0][0].x - i, 0, room.block[0][0].x - i, room.block[room.worldHeight-1][0].y + room.blockSize + i); //left border
-			g.drawLine(room.block[0][0].x - myBorder + 1, room.block[room.worldHeight-1][0].y + room.blockSize + i, room.block[0][room.worldWidth-1].x + room.blockSize + myBorder, room.block[room.worldHeight-1][0].y + room.blockSize + i); //drawing bottom border.
+				g.drawLine(room.block[0][room.worldWidth-1].x + room.blockSize + i, 0, room.block[0][room.worldWidth-1].x + room.blockSize + i, room.block[room.worldHeight-1][0].y + room.blockSize); //right border
+				g.drawLine(room.block[0][0].x - i, 0, room.block[0][0].x - i, room.block[room.worldHeight-1][0].y + room.blockSize + i); //left border
+				g.drawLine(room.block[0][0].x - myBorder + 1, room.block[room.worldHeight-1][0].y + room.blockSize + i, room.block[0][room.worldWidth-1].x + room.blockSize + myBorder, room.block[room.worldHeight-1][0].y + room.blockSize + i); //drawing bottom border.
 			}
-			
 			room.draw(g);   //Drawing the room.
-			
 			for(int i=0;i<mobs.length;i++) {
 				if(mobs[i].inGame) {
 					mobs[i].draw(g);
-					
 				}
-				
 			}
 		
 			store.draw(g);  //Drawing the store.
@@ -202,8 +166,9 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 				g.setColor(new Color(0, 0, 0));
 				g.setFont(new Font("Courier New", Font.BOLD, 14));
 				if(level > maxLevel) {
-				g.drawString("Congratulations you beat the game! The window will now close...", 10, 10);
-			} else {
+					g.drawString("Congratulations you beat the game! The window will now close...", 10, 10);
+				}
+				else {
 				g.drawString("You beat the level! Please wait for next level...", 10, 10);
 				}
 			}
@@ -212,52 +177,36 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	
 	public int spawnTime = 5000, spawnFrame = 0;										//green mob spawn time
 	public int spawnTimeMob2 = 2500, spawnFrameMob2 = 0;								//pink mob spawn time
-	
 	public void mobSpawner() {
 		if(spawnFrame >= spawnTime){
 			for(int i=0;i<mobs.length;i++){
 				if(!mobs[i].inGame){
 					mobs[i].spawnMob(Value.mobGreen);
-//					System.out.println("green");
 					break;
 				}
-				
 			}
-			
 			spawnFrame = 0;
-			
-		} else {
-			spawnFrame += 1;
-			
-			
 		}
-		
+		else {
+			spawnFrame += 1;
+		}
 		if(spawnFrameMob2 >= spawnTimeMob2){
 			for(int i=0;i<mobs.length;i++){
 				if(!mobs[i].inGame){
 					mobs[i].spawnMob(Value.mobPink);
-//					System.out.println("pink");
 					break;
 				}
-				
 			}
-			
 			spawnFrameMob2 = 0;
-			
-		} else {
-			spawnFrameMob2 += 1;
-			
-			
 		}
-		
-		
+		else {
+			spawnFrameMob2 += 1;
+		}
 	}
 	
-	
 	public void run() {
-		
-			while(true) {
-				if(!isPaused) {
+		while(true) {
+			if(!isPaused) {
 				if(!isFirst && health > 0 && !isWin) {
 					room.physic(); 
 					mobSpawner();
@@ -265,38 +214,38 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 						if(mobs[i].inGame) {
 							mobs[i].physic();
 						}
-						
 					}
-				} else {
+				}
+				else {
 					if(isWin) {
 						if(winFrame >= winTime) {
 							if(level == maxLevel) {
 								System.exit(0);
-							} else {
+							}
+							else {
 								level +=1;
 								define();
 								isWin = false;
 							}
 							winFrame = 0;
-					} else {
-						winFrame += 1;
+						}
+						else {
+							winFrame += 1;
 						}
 					}
 				}
 				repaint();
-				
 				try {
-				Thread.sleep(1);
-				} catch(Exception e) { }
-				
-			} else {
+					Thread.sleep(1);
+				}
+				catch(Exception e) {}
+			}
+			else {
 				try{
 					Thread.sleep(1);
-				} catch(Exception e) { }
+				}
+				catch(Exception e) {}
 			}
-		} 
-			
-			
-		
+		}
 	}
 }

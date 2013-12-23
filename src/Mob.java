@@ -1,6 +1,5 @@
 import java.awt.*;
 
-
 public class Mob extends Rectangle {
 	public int xC, yC;
 	public int health;
@@ -16,11 +15,9 @@ public class Mob extends Rectangle {
 	public boolean hasDownward = false;
 	public boolean hasRight = false;
 	public boolean hasLeft = false;
-
+	public int walkFrame = 0, walkSpeed = 40;
 	
-	public Mob() {
-		
-	}
+	public Mob() {}
 	
 	public void spawnMob(int mobID) {
 		for(int y=0;y<Screen.room.block.length;y++) {
@@ -30,137 +27,120 @@ public class Mob extends Rectangle {
 				yC = y;
 			}
 		}
-		
 		this.mobID = mobID;
 		this.health = Value.mobHealth[mobID];
-		
 		inGame = true;
-			
 	}
 	
 	public void deleteMob() {
 		inGame = false;
 		direction = right;
 		mobWalk = 0;
-		
 	}
 	
 	public void loseCastleHealth() {
 		Screen.health -= 1;
-		
-		
-		
 	}
 	
-	public int walkFrame = 0, walkSpeed = 40;
-	
 	public void physic() {
-		
 		for(int i=0;i<Value.mobWalkSpeeds.length;i++) {
 			if(i == mobID) {
 				walkSpeed = Value.mobWalkSpeeds[i];
-				
 				if(mobID == Value.mobWalkSpeeds[0]) {
-				walkSpeed = walkSpeed - Screen.killed*2;
+					walkSpeed = walkSpeed - Screen.killed*2;
 				} 
-				
 				if(mobID == Value.mobWalkSpeeds[1]) {
 					walkSpeed = walkSpeed - Screen.killed/2;
 				}
 			}
-			
 		}
-		
 		
 		if(walkFrame >= walkSpeed) {
 			if(direction == right) {
 				x += 1;
-			}else if (direction == upward) {
+			}
+			else if (direction == upward) {
 				y -= 1;
-			}else if(direction == downward ) {
+			}
+			else if(direction == downward ) {
 				y += 1;
-			}else if(direction == left ) {
+			}
+			else if(direction == left ) {
 				x -= 1;
 			}
-			
 			mobWalk += 1;
-			
 			if(mobWalk == Screen.room.blockSize) {
 				if(direction == right) {
-							xC += 1;
-							hasRight = true;
-						}else if (direction == upward) {
-							yC -= 1;
-							hasUpward = true;
-						}else if(direction == downward ) {
-							yC += 1;
-							hasDownward = true;
-						}else if(direction == downward ) {
-							yC += 1;
-							hasDownward = true;
-						}else if(direction == left) {
-							xC -= 1;
-							hasLeft = true;
-							
-						}
-				
+					xC += 1;
+					hasRight = true;
+				}
+				else if (direction == upward) {
+					yC -= 1;
+					hasUpward = true;
+				}
+				else if(direction == downward ) {
+					yC += 1;
+					hasDownward = true;
+				}
+				else if(direction == downward ) {
+					yC += 1;
+					hasDownward = true;
+				}
+				else if(direction == left) {
+					xC -= 1;
+					hasLeft = true;
+				}
 				if(!hasUpward){
-				try{
+					try{
 						if(Screen.room.block[yC+1][xC].groundID == Value.groundRock) {
-					direction = downward;
+							direction = downward;
 						}
-					}catch(Exception e) {}
+					}
+					catch(Exception e) {}
 				}
 				if(!hasDownward) {
-						try{
-							if(Screen.room.block[yC-1][xC].groundID == Value.groundRock) {
-								direction = upward;
-						
-							   }
-					}catch(Exception e) {}
+					try{
+						if(Screen.room.block[yC-1][xC].groundID == Value.groundRock) {
+							direction = upward;
+					   }
+					}
+					catch(Exception e) {}
 				}
 				if(!hasLeft) {
-				try{
-					if(Screen.room.block[yC][xC+1].groundID == Value.groundRock) {
-						direction = right;
-					}				
-					}catch(Exception e) {}
+					try{
+						if(Screen.room.block[yC][xC+1].groundID == Value.groundRock) {
+							direction = right;
+						}
+					}
+					catch(Exception e) {}
 				}
-				
 				if(!hasRight) {
 					try{
 						if(Screen.room.block[yC][xC-1].groundID == Value.groundRock) {
 							direction = left;
 						}				
-						}catch(Exception e) {}
 					}
-				
+					catch(Exception e) {}
+				}
 				if(Screen.room.block[yC][xC].airID == Value.airCave) {
 					deleteMob();
 					loseCastleHealth();
-					
 				}
-					
 				hasUpward = false;
 				hasDownward = false;
 				hasRight = false;
 				hasLeft = false;
 				mobWalk=0;
-				}
-			
+			}
 			walkFrame = 0;
-			
-		} else {
-			walkFrame += 1;
-			
 		}
-		
-		
+		else {
+			walkFrame += 1;
+		}
 	}
 	
 	public void loseHealth(int amo) {
 		health -= amo;
-		
 		checkDeath();
 	}
 	
@@ -172,34 +152,27 @@ public class Mob extends Rectangle {
 			if(Screen.isDebug) {
 			System.out.println(Screen.killed);
 			}
-			
 		}
-			
 	}
 	
 	public boolean isDead() {
 		if(inGame) {
 			return false;
-		} else {
+		}
+		else {
 			return true;
 		}
 	}
 	
 	public void draw(Graphics g) {
 		g.drawImage(Screen.tileset_mob[mobID], x ,y, width, height, null);
-		
-		//health bar
-		
 		if(mobID == Value.mobGreen) {
 			g.setColor(new Color(180, 50, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), width, healthHeight);
-		
 			g.setColor(new Color(50, 180, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), health/100, healthHeight);
-		
 			g.setColor(new Color(0, 0, 0));
 			g.drawRect(x, y - (healthSpace + healthHeight), health/100, healthHeight);
-
 			g.setColor(new Color(180, 0, 0));
 			g.drawString(Integer.toString(health/26), x, y-10);
 		}
@@ -207,17 +180,12 @@ public class Mob extends Rectangle {
 		if(mobID == Value.mobPink) {
 			g.setColor(new Color(180, 50, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), width, healthHeight);
-			
 			g.setColor(new Color(50, 180, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), health/50, healthHeight);
-			
 			g.setColor(new Color(0, 0, 0));
 			g.drawRect(x, y - (healthSpace + healthHeight), health/50, healthHeight);
-			
 			g.setColor(new Color(180, 0, 0));
 			g.drawString(Integer.toString(health/26), x, y-10);
 		}
-		
 	}
-	
 }

@@ -17,15 +17,8 @@ public class Value {
 	public static int[] mobHealth = {5200, 2600};
 	public static int[] mobWalkSpeeds = {40, 15};
 	
-	
 	public static int[] killReward = {5, 2};
 	
 	public static int startingCoinage = 100;
 	public static int startingHealth = 10;
-
-	
-	
-	
-	
-	
 }
