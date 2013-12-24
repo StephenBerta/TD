@@ -1,11 +1,12 @@
 package TowerDefense;
+
 import java.awt.*;
 
 public class Mob extends Rectangle {
 	public int xC, yC;
 	public int health;
 //	public int greenHP = 5200;			//multiples of 52 to show correctly 
-	public int healthSpace =3, healthHeight = 6;
+	public int healthSpace = 3, healthHeight = 6;
 	public int mobSize = 52;			//same as block size
 	public int mobWalk = 0;
 	public int upward = 0, downward =1, right =2, left =3;
@@ -21,9 +22,14 @@ public class Mob extends Rectangle {
 	public Mob() {}
 	
 	public void spawnMob(int mobID) {
-		for(int y=0;y<Screen.room.block.length;y++) {
+		for(int y = 0; y < Screen.room.block.length; y++) {
 			if(Screen.room.block[y][0].groundID == Value.groundRock) {
-				setBounds(Screen.room.block[y][0].x, Screen.room.block[y][0].y, mobSize, mobSize); 
+				setBounds(
+					Screen.room.block[y][0].x,
+					Screen.room.block[y][0].y,
+					mobSize,
+					mobSize
+				); 
 				xC = 0;
 				yC = y;
 			}
@@ -171,9 +177,9 @@ public class Mob extends Rectangle {
 			g.setColor(new Color(180, 50, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), width, healthHeight);
 			g.setColor(new Color(50, 180, 50));
-			g.fillRect(x , y - (healthSpace + healthHeight), health/100, healthHeight);
+			g.fillRect(x , y - (healthSpace + healthHeight), health / 100, healthHeight);
 			g.setColor(new Color(0, 0, 0));
-			g.drawRect(x, y - (healthSpace + healthHeight), health/100, healthHeight);
+			g.drawRect(x, y - (healthSpace + healthHeight), health / 100, healthHeight);
 			g.setColor(new Color(180, 0, 0));
 			g.drawString(Integer.toString(health/26), x, y-10);
 		}
@@ -182,9 +188,9 @@ public class Mob extends Rectangle {
 			g.setColor(new Color(180, 50, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), width, healthHeight);
 			g.setColor(new Color(50, 180, 50));
-			g.fillRect(x , y - (healthSpace + healthHeight), health/50, healthHeight);
+			g.fillRect(x , y - (healthSpace + healthHeight), health / 50, healthHeight);
 			g.setColor(new Color(0, 0, 0));
-			g.drawRect(x, y - (healthSpace + healthHeight), health/50, healthHeight);
+			g.drawRect(x, y - (healthSpace + healthHeight), health / 50, healthHeight);
 			g.setColor(new Color(180, 0, 0));
 			g.drawString(Integer.toString(health/26), x, y-10);
 		}
@@ -193,9 +199,9 @@ public class Mob extends Rectangle {
 			g.setColor(new Color(180, 50, 50));
 			g.fillRect(x , y - (healthSpace + healthHeight), width, healthHeight);
 			g.setColor(new Color(50, 180, 50));
-			g.fillRect(x , y - (healthSpace + healthHeight), health/200, healthHeight);
+			g.fillRect(x , y - (healthSpace + healthHeight), health / 200, healthHeight);
 			g.setColor(new Color(0, 0, 0));
-			g.drawRect(x, y - (healthSpace + healthHeight), health/200, healthHeight);
+			g.drawRect(x, y - (healthSpace + healthHeight), health / 200, healthHeight);
 			g.setColor(new Color(180, 0, 0));
 			g.drawString(Integer.toString(health/26), x, y-10);
 		}
