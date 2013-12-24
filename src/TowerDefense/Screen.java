@@ -1,3 +1,4 @@
+package TowerDefense;
 //2x2 pixel TD game so 20 in here is really 10 pixels in photoshop!!
 import java.awt.Color;
 import java.awt.Font;

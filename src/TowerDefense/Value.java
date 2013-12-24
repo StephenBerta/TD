@@ -1,3 +1,4 @@
+package TowerDefense;
 
 public class Value {
 	public static int groundGrass = 0;			//can place towers here
