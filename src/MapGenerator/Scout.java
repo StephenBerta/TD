@@ -1,5 +1,7 @@
 package MapGenerator;
 
+import java.util.Arrays;
+
 public class Scout {
 	private int[] mapSize = null;
 	private int[] startCoord = null;
@@ -19,16 +21,35 @@ public class Scout {
 	
 	private int getDirection(){
 		int value = (Integer) null;
-		
+//		List<direction> = null;
+		double[] distance = (double[]) null;
 		int i = 0;
-		double distance;
+
+		//Calculate the distances of all directions
 		for(i=0; i < 3; i++){
 			int[] coordinate = (Direction.values()[i]).direction();
 			coordinate[0] += currentCoord[0];
 			coordinate[1] += currentCoord[1];
-			distance = 
-			if()
+			try{
+				distance[i] = Math.sqrt(Math.exp((currentCoord[0] - endCoord[0])) + Math.exp((currentCoord[1] - endCoord[1])));
+			}
+			finally{
+				distance[i] = (Double) null;
+			}
 		}
+		
+		//Determine shortest route
+		int minValue = (int) distance[0];
+		for(i = 0; i < distance.length; i++){
+			if(distance[i] < minValue){
+				minValue = (int) distance[i];
+			}
+		}
+		
+		
+		
+			
+			
 				
 		Direction direction = Direction.values()[RandomGenerator.RandomInteger(0, 3)];
 		switch(direction){
