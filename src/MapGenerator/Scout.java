@@ -21,7 +21,6 @@ public class Scout {
 	
 	private Direction getDirection(){
 		List<Direction> directionList = new ArrayList<Direction>();
-		double shortestDistance = 0;
 
 		//Calculate the distances from all possible directions
 		for(int i = 0; i < Direction.Orientation.values().length; i++){
@@ -29,14 +28,7 @@ public class Scout {
 //			this.currentCoord[0] += relativeCoordinate[0];
 //			this.currentCoord[1] += relativeCoordinate[1];
 			double distance = Math.sqrt(Math.pow((this.endCoord[0] - relativeCoordinate[0]), 2) + Math.pow((this.endCoord[1] - relativeCoordinate[1]), 2));
-			//Fix in future, 0 could be the distance
-			if(distance == 0){
-				shortestDistance = distance;
-			}
 			try{
-				if(distance < shortestDistance){
-					shortestDistance = distance;
-				}
 				directionList.add(new Direction(
 					Direction.Orientation.values()[i],
 					distance,
@@ -49,6 +41,13 @@ public class Scout {
 		}
 		
 		//Determine shortest route(s)
+		double shortestDistance = directionList.get(0).distance;
+		for(int i = 0; i < directionList.size(); i++){
+			if(directionList.get(i).distance < shortestDistance){
+				shortestDistance = directionList.get(i).distance;
+			}
+		}
+				
 		Iterator<Direction> iterator = directionList.iterator();
 		while(iterator.hasNext()){
 			if(iterator.next().distance != shortestDistance){
@@ -58,18 +57,17 @@ public class Scout {
 		
 		//Of remaining directions, choose one
 		Direction value = directionList.get(RandomGenerator.RandomInteger(0, directionList.size() - 1));
-//		directionList.clear();
 		return value;
 	}
 	
 	public void moveDirection(){
 		int[] headingCoord = getDirection().coordinate;
-		System.out.println("Heading coordinate is:  " + headingCoord[0] + ":" + headingCoord[1]);
 		for(int i = 0; i < headingCoord.length; i++){
 			this.headingCoord[i] = headingCoord[i];
 		}
-		this.currentCoord[0] += this.headingCoord[0];
-		this.currentCoord[1] += this.headingCoord[1];
-		this.mapArray[headingCoord[0]][headingCoord[1]] = 1;
+		for(int i = 0; i < this.currentCoord.length; i++){
+			this.currentCoord[i] += headingCoord[i];
+		}
+		this.mapArray[this.currentCoord[0]][this.currentCoord[1]] = 1;
 	}
 }

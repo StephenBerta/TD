@@ -6,7 +6,7 @@ public class MapGenerator {
 	public static void main(String[] args) {
 		Map map = new Map(new int[]{16, 16}, new int[]{0, 0}, new int[]{15, 15});
 		Scout scout = new Scout(map.mapArray, map.startCoord, map.endCoord);
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < 28; i++){
 			scout.moveDirection();
 		}
 		
