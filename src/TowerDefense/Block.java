@@ -34,7 +34,7 @@ public class Block extends Rectangle {
 			shooting = false;
 		}
 			if(!shooting) {
-				if(airID == Value.airTowerLaser || airID == Value.airTowerRadiator) {	//for more towers just say || value.twoername
+				if(airID == Value.airTowerLaser || airID == Value.airTowerRadiator || airID == Value.airTowerCannon) {	//for more towers just say || value.twoername
 					for(int i=0;i<Screen.mobs.length;i++) {
 						if(Screen.mobs[i].inGame) {
 							if(towerRange.intersects(Screen.mobs[i])) {
@@ -94,8 +94,22 @@ public class Block extends Rectangle {
 					}
 				}
 			}
+			if(airID == Value.airTowerCannon) {
+				g.setColor(new Color(250,50,0));
+				for(int i=0;i<16;i++) {
+				g.drawLine(x + (width/2) - i/4, y + (height/2), Screen.mobs[shotMob].x + (Screen.mobs[shotMob].width/2)  + i , Screen.mobs[shotMob].y + (Screen.mobs[shotMob].height/2));
+				}
+				if(loseFrame >= loseTime) {
+					Screen.mobs[shotMob].loseHealth(Value.airTowerCannonDamage);
+					loseFrame = 0;
+				}
+				else {
+					loseFrame += 1;						
+					}
+				}
+			}
 		}
-	}
+	
 }
 
 

@@ -57,7 +57,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	}
 	
 	public static void hasWon() {
-		if(killed == killsToWin) {
+		if(killed >= killsToWin) {
 			isWin = true;
 			killed = 0;
 			coinage = 0;
@@ -89,6 +89,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		
 		tileset_mob[0] = new ImageIcon("res/mob1.png").getImage();
 		tileset_mob[1] = new ImageIcon("res/mob2.png").getImage();
+		tileset_mob[2] = new ImageIcon("res/mob3.png").getImage();
 		
 		save.loadSave(new File("save/mission" + level + ".steve"));
 		
@@ -176,9 +177,12 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		}
 	}
 	
-	public int spawnTime = 5000, spawnFrame = 0;										//green mob spawn time
-	public int spawnTimeMob2 = 2500, spawnFrameMob2 = 0;								//pink mob spawn time
+	public int spawnTime = 4000, spawnFrame = 0;										//green mob spawn time
+	public int spawnTimeMob2 = 2000, spawnFrameMob2 = 0;								//pink mob spawn time
+	public int spawnTimeMob3 = 6000, spawnFrameMob3 = 0;								//yellow mob spawn time
 	public void mobSpawner() {
+		
+		
 		if(spawnFrame >= spawnTime){
 			for(int i=0;i<mobs.length;i++){
 				if(!mobs[i].inGame){
@@ -203,6 +207,19 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		else {
 			spawnFrameMob2 += 1;
 		}
+		if(spawnFrameMob3 >= spawnTimeMob3){
+			for(int i=0;i<mobs.length;i++){
+				if(!mobs[i].inGame){
+					mobs[i].spawnMob(Value.mobYellow);
+					break;
+				}
+			}
+			spawnFrameMob3 = 0;
+		}
+		else {
+			spawnFrameMob3 += 1;
+		}
+		
 	}
 	
 	public void run() {

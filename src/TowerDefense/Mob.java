@@ -188,5 +188,16 @@ public class Mob extends Rectangle {
 			g.setColor(new Color(180, 0, 0));
 			g.drawString(Integer.toString(health/26), x, y-10);
 		}
+		
+		if(mobID == Value.mobYellow) {
+			g.setColor(new Color(180, 50, 50));
+			g.fillRect(x , y - (healthSpace + healthHeight), width, healthHeight);
+			g.setColor(new Color(50, 180, 50));
+			g.fillRect(x , y - (healthSpace + healthHeight), health/200, healthHeight);
+			g.setColor(new Color(0, 0, 0));
+			g.drawRect(x, y - (healthSpace + healthHeight), health/200, healthHeight);
+			g.setColor(new Color(180, 0, 0));
+			g.drawString(Integer.toString(health/26), x, y-10);
+		}
 	}
 }

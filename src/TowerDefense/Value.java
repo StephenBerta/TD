@@ -11,14 +11,19 @@ public class Value {
 	public static int airTowerLaserDamage = 100;
 	public static int airTowerRadiator = 3;
 	public static int airTowerRadiatorDamage = 50;
+	public static int airTowerCannon = 4;
+	public static int airTowerCannonDamage = 300;
+	
+	
 	
 	public static int mobAir = -1;
 	public static int mobGreen = 0;
 	public static int mobPink = 1;
-	public static int[] mobHealth = {5200, 2600};
-	public static int[] mobWalkSpeeds = {40, 15};
+	public static int mobYellow = 2;
+	public static int[] mobHealth = {5200, 2600, 10400};
+	public static int[] mobWalkSpeeds = {30, 20, 60};
 	
-	public static int[] killReward = {5, 2};
+	public static int[] killReward = {5, 2, 20};
 	
 	public static int startingCoinage = 100;
 	public static int startingHealth = 10;

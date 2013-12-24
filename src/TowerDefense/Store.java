@@ -12,9 +12,9 @@ public class Store {
 	public static int itemIn = 4;
 	public static int heldID = -1;
 	public static int realID = -1;
-	public static int[] buttonID = {Value.airTowerLaser, Value.airTowerRadiator, Value.airAir, Value.airAir, Value.airAir, Value.airAir, Value.airAir, Value.airTrashCan};
-	public static int[] buttonPrice = {10, 20, 0, 0, 0, 0, 0, 0};
-	public static String[] buttonDescription = {"LASER", "RADIATOR", "tower", "tower", "tower", "tower", "tower", "RECYCLING"};
+	public static int[] buttonID = {Value.airTowerLaser, Value.airTowerRadiator, Value.airTowerCannon, Value.airAir, Value.airAir, Value.airAir, Value.airAir, Value.airTrashCan};
+	public static int[] buttonPrice = {10, 20, 40, 0, 0, 0, 0, 0};
+	public static String[] buttonDescription = {"LASER", "RADIATOR", "CANNON", "tower", "tower", "tower", "tower", "RECYCLING"};
 	
 	public Rectangle[] button = new Rectangle [shopWidth];
 
