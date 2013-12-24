@@ -28,7 +28,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	public static int killsToWin = 0;
 	public static int level = 1;
 	public static int maxLevel = 3;
-	public static int winTime = 4000;
+	public static int winTime = 1000;
 	public static int winFrame = 0;
 	
 	public static int buttonX = 500;
@@ -288,6 +288,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 								level +=1;
 								define();
 								isWin = false;
+								killed = 0;				//reset number killed on win
 							}
 							winFrame = 0;
 						}
