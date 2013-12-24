@@ -17,22 +17,14 @@ public class Map {
 	}
 	
 	private void initialize(){
-		int index = this.size[0];
-		while(index > 0){
-			for(int x = 0; x < size[0]; x++) {
-				for(int y = 0; y < size[1]; y++) {
+		for(int i = 0; i <= this.size[0]; i++){
+			for(int x = 0; x < this.size[0]; x++) {
+				for(int y = 0; y < this.size[1]; y++) {
 					mapArray[x][y] = 0;
-					if( x == startCoord[0] && y == startCoord[1] ){
-						mapArray[x][y] = 1;
-					}
-					if(x == endCoord[0] && y == endCoord[1] ){
-						mapArray[x][y] = 2;
-					}
+					mapArray[x][y] = x == startCoord[0] && y == startCoord[1] ? 1 : mapArray[x][y];
+					mapArray[x][y] = x == endCoord[0] && y == endCoord[1] ? 2 : mapArray[x][y];
 				}
 			}
-			index -= 1;
 		}
-		
-		
 	}
 }

@@ -1,75 +1,75 @@
 package MapGenerator;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Scout {
-	private int[] mapSize = null;
+	private int[][] mapArray = null;
 	private int[] startCoord = null;
 	private int[] endCoord = null;
-	
 	private int[] currentCoord = null;
+	private int[] headingCoord = null;
 	private int walkPace = 0;
 	
-	public Scout(int[] mapSize, int[] startCoord, int[] endCoord){
-		this.mapSize = mapSize;
+	public Scout(int[][] mapArray, int[] startCoord, int[] endCoord){
+		this.mapArray = mapArray;
 		this.startCoord = startCoord;
 		this.endCoord = endCoord;
 		this.currentCoord = startCoord;
-		
+		this.headingCoord = new int[]{0, 0};
 		this.walkPace = RandomGenerator.RandomInteger(1, 4);
 	}
 	
-	private int getDirection(){
-		int value = (Integer) null;
-//		List<direction> = null;
-		double[] distance = (double[]) null;
-		int i = 0;
+	private Direction getDirection(){
+		List<Direction> directionList = new ArrayList<Direction>();
+		double shortestDistance = 0;
 
-		//Calculate the distances of all directions
-		for(i=0; i < 3; i++){
-			int[] coordinate = (Direction.values()[i]).direction();
-			coordinate[0] += currentCoord[0];
-			coordinate[1] += currentCoord[1];
+		//Calculate the distances from all possible directions
+		for(int i = 0; i < Direction.Orientation.values().length; i++){
+			int[] relativeCoordinate = (Direction.Orientation.values()[i]).direction();
+//			this.currentCoord[0] += relativeCoordinate[0];
+//			this.currentCoord[1] += relativeCoordinate[1];
+			double distance = Math.sqrt(Math.pow((this.endCoord[0] - relativeCoordinate[0]), 2) + Math.pow((this.endCoord[1] - relativeCoordinate[1]), 2));
+			//Fix in future, 0 could be the distance
+			if(distance == 0){
+				shortestDistance = distance;
+			}
 			try{
-				distance[i] = Math.sqrt(Math.exp((currentCoord[0] - endCoord[0])) + Math.exp((currentCoord[1] - endCoord[1])));
+				if(distance < shortestDistance){
+					shortestDistance = distance;
+				}
+				directionList.add(new Direction(
+					Direction.Orientation.values()[i],
+					distance,
+					relativeCoordinate
+				));
 			}
-			finally{
-				distance[i] = (Double) null;
+			catch(Exception e){
+				System.out.println("A direction class could not be generated.");
 			}
 		}
 		
-		//Determine shortest route
-		int minValue = (int) distance[0];
-		for(i = 0; i < distance.length; i++){
-			if(distance[i] < minValue){
-				minValue = (int) distance[i];
+		//Determine shortest route(s)
+		Iterator<Direction> iterator = directionList.iterator();
+		while(iterator.hasNext()){
+			if(iterator.next().distance != shortestDistance){
+				iterator.remove();
 			}
 		}
 		
-		
-		
-			
-			
-				
-		Direction direction = Direction.values()[RandomGenerator.RandomInteger(0, 3)];
-		switch(direction){
-			case North:
-				
-				break;
-			case East:
-				break;
-			case South:
-				break;
-			case West:
-				break;
-			default:
-				break;
-		}
-		
+		//Of remaining directions, choose one
+		Direction value = directionList.get(RandomGenerator.RandomInteger(0, directionList.size() - 1));
+//		directionList.clear();
 		return value;
 	}
 	
-	private void moveDirection(){
-		
+	public void moveDirection(){
+		int[] headingCoord = getDirection().coordinate;
+		System.out.println("Heading coordinate is:  " + headingCoord[0] + ":" + headingCoord[1]);
+		for(int i = 0; i < headingCoord.length; i++){
+			this.headingCoord[i] = headingCoord[i];
+		}
+		this.currentCoord[0] += this.headingCoord[0];
+		this.currentCoord[1] += this.headingCoord[1];
+		this.mapArray[headingCoord[0]][headingCoord[1]] = 1;
 	}
 }
