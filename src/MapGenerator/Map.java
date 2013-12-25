@@ -1,6 +1,8 @@
 package MapGenerator;
 
-public class Map {
+import java.awt.*;
+
+public class Map extends Rectangle{
 	//Note: place the killsToWin within the Map initializer method instead of here
 	//Screen.killsToWin = loadScanner.nextInt();
 	public int[] size = null;
