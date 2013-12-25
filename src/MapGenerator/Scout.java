@@ -21,12 +21,13 @@ public class Scout {
 	
 	private Direction getDirection(){
 		List<Direction> directionList = new ArrayList<Direction>();
-
+		
+		//Determine if 
+		
+		
 		//Calculate the distances from all possible directions
 		for(int i = 0; i < Direction.Orientation.values().length; i++){
 			int[] relativeCoordinate = (Direction.Orientation.values()[i]).direction();
-//			this.currentCoord[0] += relativeCoordinate[0];
-//			this.currentCoord[1] += relativeCoordinate[1];
 			double distance = Math.sqrt(Math.pow((this.endCoord[0] - relativeCoordinate[0]), 2) + Math.pow((this.endCoord[1] - relativeCoordinate[1]), 2));
 			try{
 				directionList.add(new Direction(
@@ -46,8 +47,7 @@ public class Scout {
 			if(directionList.get(i).distance < shortestDistance){
 				shortestDistance = directionList.get(i).distance;
 			}
-		}
-				
+		}				
 		Iterator<Direction> iterator = directionList.iterator();
 		while(iterator.hasNext()){
 			if(iterator.next().distance != shortestDistance){
@@ -55,7 +55,7 @@ public class Scout {
 			}
 		}
 		
-		//Of remaining directions, choose one
+		//Choose one of direction(s)
 		Direction value = directionList.get(RandomGenerator.RandomInteger(0, directionList.size() - 1));
 		return value;
 	}
