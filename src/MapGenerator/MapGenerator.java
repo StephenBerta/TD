@@ -1,5 +1,6 @@
 package MapGenerator;
 
+import java.awt.Rectangle;
 import java.io.*;
 
 public class MapGenerator {
@@ -9,6 +10,10 @@ public class MapGenerator {
 		for(int i = 0; i < 28; i++){
 			scout.moveDirection();
 		}
+		
+		Rectangle rectangle = new Rectangle(0, 0, 10, 10);
+		rectangle.add(5, 5);
+		System.out.println(rectangle.toString());
 		
 		try{
 			File file = new File("save\\Level 1.txt");
