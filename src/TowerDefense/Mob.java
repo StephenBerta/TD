@@ -156,6 +156,7 @@ public class Mob extends Rectangle {
 			deleteMob();
 			Screen.room.block[0][0].getMoney(mobID);
 			Screen.killed += 1;
+			Screen.hasWon();
 			if(Screen.isDebug) {
 			System.out.println(Screen.killed);
 			}

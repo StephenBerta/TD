@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class Key implements MouseMotionListener, MouseListener {
 	public static int clickNumber = 0;
+	public static int clickCount = 0;
 
 	public void mouseClicked(MouseEvent e) {}
 
@@ -17,7 +18,9 @@ public class Key implements MouseMotionListener, MouseListener {
 		clickNumber = e.getButton();
 	}
 
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		clickCount = e.getClickCount();
+	}
 	
 	public void mouseDragged(MouseEvent e) {
 		Screen.mse = new Point(

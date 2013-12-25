@@ -27,4 +27,10 @@ public class Value {
 	
 	public static int startingCoinage = 100;
 	public static int startingHealth = 10;
+	
+	public static int difficultyLevel = 1;
+	
+	public static boolean isEasy = true;						//default to easy difficulty
+	public static boolean isMedium = false;
+	public static boolean isHard = false;
 }

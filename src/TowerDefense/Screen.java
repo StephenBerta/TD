@@ -28,18 +28,27 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	public static int killsToWin = 0;
 	public static int level = 1;
 	public static int maxLevel = 3;
-	public static int winTime = 1000;
+	public static int winTime = 4000;
 	public static int winFrame = 0;
 	
 	public static int buttonX = 500;
 	public static int buttonY = 100;
+	public static int buttonXoptions = 200;
+	public static int buttonYoptions = 100;
 	public Rectangle buttonStart;
+	public Rectangle buttonOptions;
+	public Rectangle buttonBack;
+	public Rectangle buttonEasy;
+	public Rectangle buttonMedium;
+	public Rectangle buttonHard;
+	
 	
 	public static boolean isFirst = true;
 	public static boolean isDebug = false;
 	public static boolean isWin = false;
 	public static boolean isPaused = false;
 	public static boolean startGame = false;
+	public static boolean startOptions = false;
 	
 	public static Point mse = new Point(0,0);
 	
@@ -47,6 +56,9 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	public static Save save;
 	public static Store store;
 	public static int myBorder = 5;								//pixel thickness of border
+	
+	
+	
 	
 	public static Mob[] mobs = new Mob[100];
 	
@@ -57,7 +69,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	}
 	
 	public static void hasWon() {
-		if(killed >= killsToWin) {
+		if(killed == killsToWin) {
 			isWin = true;
 			killed = 0;
 			coinage = 0;
@@ -107,8 +119,12 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		}
 	}
 	
-	public void paintComponent(Graphics g) {
+	
+	public void paintScreens(Graphics g) {
 		int mouseButton = Key.clickNumber;
+		int clicks = Key.clickNumber;	//get number of clicks to relay to second screen
+		int clicked = 0; //tell when to click difficulties
+		
 		if(isFirst) {
 			myWidth = getWidth();
 			myHeight = getHeight();
@@ -116,7 +132,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 			define();
 		}
 		
-		if(!startGame) {
+		if(!startGame && !startOptions) {
 			buttonStart = new Rectangle(
 				(getWidth() - buttonX) / 2,
 				(getHeight() - buttonY) / 2,
@@ -124,9 +140,18 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 				buttonY
 			);
 			
+			buttonOptions = new Rectangle(
+					(getWidth() - buttonX) / 2,
+					(getHeight() + 2*buttonY) / 2,
+					buttonX,
+					buttonY
+				);
+			
+			//setbackground
 			g.setColor(new Color(50,50,50));
 			g.fillRect(0, 0, getWidth(), getHeight());
 			
+			//screen title above start
 			g.setColor(new Color(0,0,0));
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
 			g.drawString(
@@ -135,10 +160,19 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 				getHeight() / 4
 			);
 			
+			//color of start button
 			g.setColor(new Color(100,100,100));
 			g.fillRect(
 				(getWidth() - buttonX) / 2,
 				(getHeight() - buttonY) / 2,
+				buttonX,
+				buttonY
+			);
+			//color of options button
+			g.setColor(new Color(100,100,100));
+			g.fillRect(
+				(getWidth() - buttonX) / 2,
+				(getHeight() + 2*buttonY) / 2,
 				buttonX,
 				buttonY
 			);
@@ -149,7 +183,11 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 				"START GAME",
 				(getWidth() - (buttonX) / 2) / 2,
 				(getHeight() + (buttonY / 4)) / 2);
-			
+			g.drawString(
+				"OPTIONS",
+				(getWidth() - (buttonX) / 3) / 2,
+				(getHeight() - buttonOptions.height*2));
+			//startbutton
 			if(buttonStart.contains(Screen.mse)) {
 				g.setColor(new Color(150,150,150));
 				g.fillRect(
@@ -166,11 +204,175 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 					(getHeight() + (buttonY / 4)) / 2);
 				if(mouseButton  == 1) {
 					isFirst = false;
-					startGame = true;
-					System.out.println("finally");
+					startGame = true;				
+				}
+			}
+			
+			//select options
+			if(buttonOptions.contains(Screen.mse)) {
+				g.setColor(new Color(255,255,255));
+				g.fillRect(
+					(getWidth() - buttonX) / 2,
+					(getHeight() + 2*buttonY) / 2,
+					buttonX,
+					buttonY
+				);
+				g.setColor(new Color(0,0,0));
+				g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+				g.drawString(
+						"CLICK HERE",
+						(getWidth() - (buttonX) / 3) / 2,
+						(getHeight() - buttonOptions.height*2));
+				if(mouseButton  == 1) {
+					startOptions = true;
+					startGame = false;
+					
+					
 				}
 			}
 		}
+		
+		//paint options
+		if(!startGame && startOptions) {
+			
+			
+			
+			startGame = false;
+			g.setColor(new Color(50,50,50));
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+			//easy button
+			g.setColor(new Color(150,150,150));
+			buttonEasy = new Rectangle(
+					(getWidth()/10 + buttonXoptions/10) / 2,
+					(getHeight() - buttonYoptions) / 2,
+					buttonXoptions,
+					buttonYoptions
+				);
+			//medium button
+			buttonMedium = new Rectangle(
+					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions*2 - buttonXoptions/4,
+					(getHeight() - buttonYoptions) / 2,
+					buttonXoptions,
+					buttonYoptions
+				);
+			
+			//hard button
+			buttonHard = new Rectangle(
+					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions/2 + buttonXoptions*3,
+					(getHeight() - buttonYoptions) / 2,
+					buttonXoptions,
+					buttonYoptions
+				);
+			//paint easy
+			g.setColor(new Color(0,250,0));
+			g.fillRect(
+					((getWidth()/10 + buttonXoptions/10)/2),
+					(getHeight() - buttonYoptions) / 2,
+					buttonXoptions,
+					buttonYoptions
+					);
+			//paint medium
+			g.setColor(new Color(125,125,0));
+			g.fillRect(
+					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions*2 - buttonXoptions/4,
+					(getHeight() - buttonYoptions) / 2,
+					buttonXoptions,
+					buttonYoptions
+					);
+			//paint hard
+			g.setColor(new Color(150,0,0));
+			g.fillRect(
+					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions/2 + buttonXoptions*3,
+					(getHeight() - buttonYoptions) / 2,
+					buttonXoptions,
+					buttonYoptions
+					);
+			//easy text
+			g.setColor(new Color(0,0,0));
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(
+					"EASY",
+					((getWidth()/10 + buttonXoptions/10) / 2) + buttonXoptions/3,
+					(getHeight()/2 + buttonYoptions/10)
+					);
+			//medium text
+			g.setColor(new Color(0,0,0));
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(
+					"MEDIUM",
+					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions*2 - buttonXoptions/4 + buttonXoptions/10,
+					(getHeight()/2 + buttonYoptions/10)
+					);
+			//hard text
+			g.setColor(new Color(0,0,0));
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(
+					"DON'T",
+					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions/2 + buttonXoptions*3 + buttonXoptions/4,
+					(getHeight()/2 + buttonYoptions/10)
+					);
+			clicked = clicks;
+			clicks = Key.clickNumber;
+			System.out.println(clicks + " " + clicked);
+				//set easy
+				if(buttonEasy.contains(Screen.mse)) {
+					g.setColor(new Color(0,0,0,50));
+					g.fillRect(
+							((getWidth()/10 + buttonXoptions/10)/2),
+							(getHeight() - buttonYoptions) / 2,
+							buttonXoptions,
+							buttonYoptions
+							);
+					if(mouseButton == 1) {
+						Value.isEasy = true;
+						Value.isMedium = false;
+						Value.isHard = false;
+						startOptions = false;
+						startGame = false;
+					}
+				}
+				//set medium
+				if(buttonMedium.contains(Screen.mse)) {
+					g.setColor(new Color(0,0,0,50));
+					g.fillRect(
+							((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions*2 - buttonXoptions/4,
+							(getHeight() - buttonYoptions) / 2,
+							buttonXoptions,
+							buttonYoptions
+							);
+					if(mouseButton == 1 && clicks > clicked) {
+						Value.isEasy = false;
+						Value.isMedium = true;
+						Value.isHard = false;
+						startOptions = false;
+						startGame = false;
+					}
+				}
+				//set hard
+				if(buttonHard.contains(Screen.mse)) {
+					g.setColor(new Color(0,0,0,50));
+					g.fillRect(
+							((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions/2 + buttonXoptions*3,
+							(getHeight() - buttonYoptions) / 2,
+							buttonXoptions,
+							buttonYoptions
+							);
+					if(mouseButton == 1 && clicks > clicked) {
+						Value.isEasy = false;
+						Value.isMedium = false;
+						Value.isHard = true;
+						startOptions = false;
+					}
+				}
+		}
+	}
+	
+	
+	public void paintComponent(Graphics g) {
+		
+		paintScreens(g);
+		
 		if(startGame) {
 			g.setColor(new Color(75,75,75));				//background color
 			g.fillRect(0, 0, getWidth(), getHeight());     //Clear screen.
@@ -207,7 +409,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 				g.fillRect(0, 0,  myWidth, myHeight);
 				g.setColor(new Color(255, 255, 255));
 				g.setFont(new Font("Courier New", Font.BOLD, 14));
-				g.drawString("GAME OVER, Sucks To Be STEVE BERTA!", 10, 10);
+				g.drawString("GAME OVER, GET BACK TO WORK YOU BAFOON!", 10, 10);
 			}
 			if(isWin) {
 				g.setColor(new Color(255,255,255));
