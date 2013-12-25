@@ -83,7 +83,8 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		
 		coinage = Value.startingCoinage;
 		health = Value.startingHealth;
-		
+		Value.getDifficultyVariables();
+		System.out.println(Value.airTowerCannonDamage);
 		for(int i=0;i<tileset_ground.length;i++) {
 			tileset_ground[i] = new ImageIcon("res/tileset_ground.png").getImage();
 			tileset_ground[i] = createImage(
@@ -122,7 +123,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	
 	public void paintScreens(Graphics g) {
 		int mouseButton = Key.clickNumber;
-		int clicks = Key.clickNumber;	//get number of clicks to relay to second screen
+		int clicks = Key.clickCount;	//get number of clicks to relay to second screen
 		int clicked = 0; //tell when to click difficulties
 		
 		if(isFirst) {
@@ -312,9 +313,16 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 					((getWidth()/10 + buttonXoptions/10)/2) + buttonXoptions/2 + buttonXoptions*3 + buttonXoptions/4,
 					(getHeight()/2 + buttonYoptions/10)
 					);
-			clicked = clicks;
-			clicks = Key.clickNumber;
-			System.out.println(clicks + " " + clicked);
+			//right click
+			g.setColor(new Color(0,0,0));
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(
+				"SCROLL CLICK DIFFICULTY",
+				getWidth() / 4,
+				getHeight() / 4
+			);
+			
+			
 				//set easy
 				if(buttonEasy.contains(Screen.mse)) {
 					g.setColor(new Color(0,0,0,50));
@@ -324,7 +332,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 							buttonXoptions,
 							buttonYoptions
 							);
-					if(mouseButton == 1) {
+					if(mouseButton == 2) {
 						Value.isEasy = true;
 						Value.isMedium = false;
 						Value.isHard = false;
@@ -341,7 +349,7 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 							buttonXoptions,
 							buttonYoptions
 							);
-					if(mouseButton == 1 && clicks > clicked) {
+					if(mouseButton == 2) {
 						Value.isEasy = false;
 						Value.isMedium = true;
 						Value.isHard = false;
@@ -358,11 +366,12 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 							buttonXoptions,
 							buttonYoptions
 							);
-					if(mouseButton == 1 && clicks > clicked) {
+					if(mouseButton == 2) {
 						Value.isEasy = false;
 						Value.isMedium = false;
 						Value.isHard = true;
 						startOptions = false;
+						startGame = false;
 					}
 				}
 		}

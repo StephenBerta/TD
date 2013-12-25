@@ -21,9 +21,10 @@ public class Value {
 	public static int mobPink = 1;
 	public static int mobYellow = 2;
 	public static int[] mobHealth = {5200, 2600, 10400};
-	public static int[] mobWalkSpeeds = {30, 20, 60};
+	public static int[] mobWalkSpeeds = {0,0,0};
+    public static int[] killReward = {0,0,0};
 	
-	public static int[] killReward = {5, 2, 20};
+	
 	
 	public static int startingCoinage = 100;
 	public static int startingHealth = 10;
@@ -33,4 +34,41 @@ public class Value {
 	public static boolean isEasy = true;						//default to easy difficulty
 	public static boolean isMedium = false;
 	public static boolean isHard = false;
+	
+	//set difficulty-specific variables
+	//0=green
+	//1=pink
+	//2=yellow
+	public static void getDifficultyVariables() {
+		if(isEasy && !isMedium && !isHard){
+			 mobWalkSpeeds[0] = 30;	
+			 mobWalkSpeeds[1] = 20;
+			 mobWalkSpeeds[2] = 60;
+		     killReward[0] = 5;
+		     killReward[1] = 2;
+		     killReward[2] = 20;
+		     
+		}
+		
+		if(!isEasy && isMedium && !isHard){
+			 mobWalkSpeeds[0] = 20;	
+			 mobWalkSpeeds[1] = 15;
+			 mobWalkSpeeds[2] = 40;
+		     killReward[0] = 5;
+		     killReward[1] = 2;
+		     killReward[2] = 20;
+			}
+	
+		if(!isEasy && !isMedium && isHard){
+			 mobWalkSpeeds[0] = 18;	
+			 mobWalkSpeeds[1] = 10;
+			 mobWalkSpeeds[2] = 25;
+		     killReward[0] = 3;
+		     killReward[1] = 1;
+		     killReward[2] = 5;
+			 airTowerLaserDamage = 50;
+		     airTowerRadiatorDamage = 25;
+		     airTowerCannonDamage = 150;
+		}
+	}
 }

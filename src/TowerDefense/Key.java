@@ -16,11 +16,10 @@ public class Key implements MouseMotionListener, MouseListener {
 	public void mousePressed(MouseEvent e) {
 		Screen.store.click(e.getButton());
 		clickNumber = e.getButton();
-	}
-
-	public void mouseReleased(MouseEvent e) {
 		clickCount = e.getClickCount();
 	}
+
+	public void mouseReleased(MouseEvent e) {}
 	
 	public void mouseDragged(MouseEvent e) {
 		Screen.mse = new Point(
