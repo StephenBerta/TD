@@ -12,6 +12,7 @@ public class Mob extends Rectangle {
 	public int upward = 0, downward =1, right =2, left =3;
 	public int direction = right;
 	public int mobID = Value.mobGreen;
+//	public int mobIDcount = 0;
 	public boolean inGame = false;
 	public boolean hasUpward = false;
 	public boolean hasDownward = false;
@@ -22,6 +23,7 @@ public class Mob extends Rectangle {
 	public Mob() {}
 	
 	public void spawnMob(int mobID) {
+		System.out.println(Screen.currentWave);
 		for(int y = 0; y < Screen.room.block.length; y++) {
 			if(Screen.room.block[y][0].groundID == Value.groundRock) {
 				setBounds(
@@ -156,7 +158,7 @@ public class Mob extends Rectangle {
 			deleteMob();
 			Screen.room.block[0][0].getMoney(mobID);
 			Screen.killed += 1;
-			Screen.hasWon();
+			Screen.hasWonWave();
 			if(Screen.isDebug) {
 			System.out.println(Screen.killed);
 			}

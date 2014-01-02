@@ -25,7 +25,9 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 	public static int coinage;
 	public static int health;
 	public static int killed = 0;
+	public static int currentWave = 0;
 	public static int killsToWin = 0;
+	public static int wavesToWin = 0;
 	public static int level = 1;
 	public static int maxLevel = 3;
 	public static int winTime = 4000;
@@ -68,12 +70,21 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		thread.start();
 	}
 	
-	public static void hasWon() {
+	public static void hasWonWave() {
 		if(killed == killsToWin) {
+			killed = 0;
+			currentWave += 1;
+			
+		}
+	}
+	public static void hasWon() {
+		if(currentWave == wavesToWin) {
 			isWin = true;
 			killed = 0;
 			coinage = 0;
+			
 		}
+		
 	}
 	
 	public void define () {
@@ -84,7 +95,6 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		coinage = Value.startingCoinage;
 		health = Value.startingHealth;
 		Value.getDifficultyVariables();
-		System.out.println(Value.airTowerCannonDamage);
 		for(int i=0;i<tileset_ground.length;i++) {
 			tileset_ground[i] = new ImageIcon("res/tileset_ground.png").getImage();
 			tileset_ground[i] = createImage(
@@ -435,54 +445,54 @@ public class Screen extends JPanel implements Runnable {				//change to Jpanel t
 		}
 	}
 	
-	public int spawnTimeMob1 = 4000, spawnFrameMob1 = 0;										//green mob spawn time
-	public int spawnTimeMob2 = 2000, spawnFrameMob2 = 0;								//pink mob spawn time
-	public int spawnTimeMob3 = 6000, spawnFrameMob3 = 0;								//yellow mob spawn time
-	public void mobSpawner() {		
-		if(spawnFrameMob1 >= spawnTimeMob1){
-			for(int i = 0; i < mobs.length; i++){
-				if(!mobs[i].inGame){
-					mobs[i].spawnMob(Value.mobGreen);
-					break;
-				}
-			}
-			spawnFrameMob1 = 0;
-		}
-		else {
-			spawnFrameMob1 += 1;
-		}
-		if(spawnFrameMob2 >= spawnTimeMob2){
-			for(int i = 0; i < mobs.length; i++){
-				if(!mobs[i].inGame){
-					mobs[i].spawnMob(Value.mobPink);
-					break;
-				}
-			}
-			spawnFrameMob2 = 0;
-		}
-		else {
-			spawnFrameMob2 += 1;
-		}
-		if(spawnFrameMob3 >= spawnTimeMob3){
-			for(int i = 0; i < mobs.length; i++){
-				if(!mobs[i].inGame){
-					mobs[i].spawnMob(Value.mobYellow);
-					break;
-				}
-			}
-			spawnFrameMob3 = 0;
-		}
-		else {
-			spawnFrameMob3 += 1;
-		}
-	}
+//	public int spawnTimeMob1 = 4000, spawnFrameMob1 = 0;										//green mob spawn time
+//	public int spawnTimeMob2 = 2000, spawnFrameMob2 = 0;								//pink mob spawn time
+//	public int spawnTimeMob3 = 6000, spawnFrameMob3 = 0;								//yellow mob spawn time
+//	public void mobSpawner() {		
+//		if(spawnFrameMob1 >= spawnTimeMob1){
+//			for(int i = 0; i < mobs.length; i++){
+//				if(!mobs[i].inGame){
+//					mobs[i].spawnMob(Value.mobGreen);
+//					break;
+//				}
+//			}
+//			spawnFrameMob1 = 0;
+//		}
+//		else {
+//			spawnFrameMob1 += 1;
+//		}
+//		if(spawnFrameMob2 >= spawnTimeMob2){
+//			for(int i = 0; i < mobs.length; i++){
+//				if(!mobs[i].inGame){
+//					mobs[i].spawnMob(Value.mobPink);
+//					break;
+//				}
+//			}
+//			spawnFrameMob2 = 0;
+//		}
+//		else {
+//			spawnFrameMob2 += 1;
+//		}
+//		if(spawnFrameMob3 >= spawnTimeMob3){
+//			for(int i = 0; i < mobs.length; i++){
+//				if(!mobs[i].inGame){
+//					mobs[i].spawnMob(Value.mobYellow);
+//					break;
+//				}
+//			}
+//			spawnFrameMob3 = 0;
+//		}
+//		else {
+//			spawnFrameMob3 += 1;
+//		}
+//	}
 	
 	public void run() {
 		while(true) {
 			if(!isPaused) {
 				if(!isFirst && health > 0 && !isWin) {
 					room.physic(); 
-					mobSpawner();
+					Wave.mobSpawner();
 					for(int i=0;i<mobs.length;i++) {
 						if(mobs[i].inGame) {
 							mobs[i].physic();
